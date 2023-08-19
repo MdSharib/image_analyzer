@@ -16,6 +16,10 @@ const Count = () => {
 
   useEffect(() => {
     const img = JSON.parse(sessionStorage.getItem("image"));
+    if (!img) {
+      navigate("/home");
+      return;
+    }
     setImage(img);
   }, []);
 

@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import styles from "./home.module.css";
+import { useDispatch, useSelector } from "react-redux";
+import { setImageUrl } from "../store/ImageSlice";
+import Preview from "./Preview";
 
 const Home = (props) => {
   const navigate = useNavigate();
@@ -10,9 +13,14 @@ const Home = (props) => {
   const [error, setError] = useState("");
   const [image, setImage] = useState("");
   const [file, setFile] = useState(null);
+  const dispatch = useDispatch();
+  const imageUrl = useSelector((state) => state.image.imageUrl);
+  const [newImageUrl, setNewImageUrl] = useState("");
 
   const [previewUrl, setPreviewUrl] = useState(null);
 
+
+  // setting
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
 
@@ -37,22 +45,6 @@ const Home = (props) => {
       navigate("/unauthorized");
       return;
     }
-    // if (!auth || auth.isVerified !== 1) {
-    //   navigate("/unauthorized");
-    // } else {
-    //   const phone = auth.phone;
-
-    //   const sendPhone = async () => {
-    //     try {
-    //       const res = await axios.post("/phone", {
-    //         phone,
-    //       });
-    //     } catch (error) {
-    //       console.log(error.message);
-    //     }
-    //   };
-    //   sendPhone();
-    // }
   }, []);
 
   const logoutHandler = () => {
@@ -88,6 +80,7 @@ const Home = (props) => {
     );
 
     setImage(res.data.secure_url);
+    dispatch(setImageUrl(res.data.secure_url));
     sessionStorage.setItem("image", JSON.stringify(res.data.secure_url));
 
     setTitle("");
@@ -147,7 +140,7 @@ const Home = (props) => {
         {error && <div className={styles.error}>{error}</div>}
         <div>
           <div>Your Image Preview</div>
-          {image && <img src={image} />}
+          {image && <Preview />}
         </div>
       </div>
     </div>
