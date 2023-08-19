@@ -5,23 +5,36 @@ import axios from "axios";
 
 const Count = () => {
   const navigate = useNavigate();
-  const [image, setImage] = useState();
+  const [images, setImages] = useState();
   const [viewCount, setViewCount] = useState(0);
 
   const logoutHandler = () => {
     console.log("logout btn clicked");
-    sessionStorage.removeItem("user");
+    const details = JSON.parse(sessionStorage.getItem("user"));
+    const access = {
+      ...details,
+      isVerified: false,
+    }
+    sessionStorage.setItem("user", JSON.stringify(access));
+    sessionStorage.removeItem("image");
+    
     navigate("/");
   };
 
   useEffect(() => {
-    const img = JSON.parse(sessionStorage.getItem("image"));
-    if (!img) {
-      navigate("/home");
-      return;
+    // fetch images from backend
+    async function fetchImages() {
+      try {
+        const response = await axios.get('/api/images');
+        setImages(response.data.images);
+      } catch (error) {
+        console.error('Error fetching images:', error);
+      }
     }
-    setImage(img);
+
+    fetchImages();
   }, []);
+
 
   useEffect(() => {
     async function fetchViewCount() {
@@ -74,7 +87,13 @@ const Count = () => {
             Reload
           </button>
           <div>No of counts : {viewCount}</div>
-          {image && <img src={image} />}
+          <ul>
+        {images && images.map((imageUrl, index) => (
+          <li key={index}>
+            <img src={imageUrl} alt={`Image ${index}`} />
+          </li>
+        ))}
+      </ul>
         </div>
       </div>
     </div>

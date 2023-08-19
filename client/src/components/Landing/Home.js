@@ -47,12 +47,21 @@ const Home = (props) => {
     }
   }, []);
 
+  // handling logout
   const logoutHandler = () => {
     console.log("logout btn clicked");
-    sessionStorage.removeItem("user");
+    const details = JSON.parse(sessionStorage.getItem("user"));
+    const access = {
+      ...details,
+      isVerified: false,
+    }
+    sessionStorage.setItem("user", JSON.stringify(access));
+    sessionStorage.removeItem("image");
     navigate("/");
   };
 
+
+  // handling images upload 
   const uploadHandler = async (e) => {
     e.preventDefault();
 
@@ -78,10 +87,10 @@ const Home = (props) => {
       "https://api.cloudinary.com/v1_1/dicof9asg/image/upload",
       formData
     );
-
+      const imageUrl = res.data.secure_url;
     setImage(res.data.secure_url);
     dispatch(setImageUrl(res.data.secure_url));
-    sessionStorage.setItem("image", JSON.stringify(res.data.secure_url));
+    await axios.post('/api/upload', { imageUrl });
 
     setTitle("");
     setDesc("");

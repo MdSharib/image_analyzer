@@ -17,8 +17,11 @@ app.use(express.json());
 app.use(morgan("dev")); 
 
 
-
+// to keep track of view count
 const viewCounts = {};
+
+// to store the image
+const uploadedImages = [];
 
 //routes
 // increment view count
@@ -41,6 +44,19 @@ app.get('/api/images/:publicId/views', (req, res) => {
 
   res.json({ viewCount });
 });
+
+
+// for image
+app.post('/api/upload', (req, res) => {
+  const { imageUrl } = req.body;
+  uploadedImages.push(imageUrl);
+  res.status(201).json({ message: 'Image URL uploaded.' });
+});
+
+app.get('/api/images', (req, res) => {
+  res.json({ images: uploadedImages });
+});
+
 
 
 //rest api
