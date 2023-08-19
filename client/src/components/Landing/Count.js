@@ -8,6 +8,7 @@ const Count = () => {
   const [images, setImages] = useState();
   const [viewCount, setViewCount] = useState(0);
 
+
   const logoutHandler = () => {
     console.log("logout btn clicked");
     const details = JSON.parse(sessionStorage.getItem("user"));
@@ -27,6 +28,7 @@ const Count = () => {
       try {
         const response = await axios.get('/api/images');
         setImages(response.data.images);
+        // console.log("images response -> ", response.data.images)
       } catch (error) {
         console.error('Error fetching images:', error);
       }
@@ -35,25 +37,16 @@ const Count = () => {
     fetchImages();
   }, []);
 
-
-  useEffect(() => {
-    async function fetchViewCount() {
-      try {
-        const response = await axios.get("/api/images/dicof9asg/views");
-        setViewCount(response.data.viewCount);
-      } catch (error) {
-        console.error("Error fetching view count:", error);
-      }
-    }
-
-    fetchViewCount();
-  }, []);
-
   // reload
   const handleReloadClick = () => {
     const handleImageLoad = async () => {
       try {
-        await axios.post("/api/images/dicof9asg/views");
+        const urlArray = [
+          ...images
+        ];
+        
+        const publicIdsArray = urlArray.map(item => item.url).join(',');
+        await axios.post(`/api/images/views`, { publicIds: publicIdsArray });
       } catch (error) {
         console.error("Error updating view count:", error);
       }
@@ -86,12 +79,13 @@ const Count = () => {
           <button className={styles.btn} onClick={handleReloadClick}>
             Reload
           </button>
-          <div>No of counts : {viewCount}</div>
           <ul>
         {images && images.map((imageUrl, index) => (
-          <li key={index}>
-            <img src={imageUrl} alt={`Image ${index}`} />
+          <li key={index+543}>
+          <div key={index+2342}>Views : {imageUrl.views}</div>
+            <img src={imageUrl.url} alt={`Image ${index}`} />
           </li>
+          
         ))}
       </ul>
         </div>

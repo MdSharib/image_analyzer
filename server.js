@@ -8,6 +8,7 @@ import cors from "cors";
 dotenv.config();
 
 
+
 //rest object
 const app = express();
 
@@ -21,41 +22,63 @@ app.use(morgan("dev"));
 const viewCounts = {};
 
 // to store the image
-const uploadedImages = [];
+let uploadedImages = [];
 
 //routes
 // increment view count
-app.post('/api/images/:publicId/views', (req, res) => {
-  const { publicId } = req.params;
+app.post('/api/images/views', (req, res) => {
+  const { publicIds } = req.body; 
+  const recievedUrl = publicIds.split(",");
+    recievedUrl.forEach(publicId => {
+    const updatedImages = uploadedImages.map(val => {
+      if (publicId === val.url) {
+        val.views = val.views + 1;
+      }
+      return val;
+    });
 
-  if (!viewCounts[publicId]) {
-    viewCounts[publicId] = 1;
-  } else {
-    viewCounts[publicId]++;
-  }
+    uploadedImages = [...updatedImages];
+  });
 
-  res.json({ message: 'View count incremented.' });
+  res.json({ message: 'View counts incremented.' });
+
 });
 
-//get view count
-app.get('/api/images/:publicId/views', (req, res) => {
-  const { publicId } = req.params;
-  const viewCount = viewCounts[publicId] || 0;
 
-  res.json({ viewCount });
-});
-
-
-// for image
+// handle upload of image
 app.post('/api/upload', (req, res) => {
   const { imageUrl } = req.body;
-  uploadedImages.push(imageUrl);
+  if(uploadedImages.length <= 0){
+    const img ={
+      url: imageUrl,
+      views: 0,
+    }
+    uploadedImages.push(img);
+  }else {
+    const findUrl = uploadedImages.find((val) => {
+      return val.url === imageUrl;
+    })
+    if(!findUrl){
+      const img ={
+        url: imageUrl,
+        views: 0,
+      }
+      uploadedImages.push(img);
+    }    
+  }
+
   res.status(201).json({ message: 'Image URL uploaded.' });
 });
 
+
+// Get all uploaded images
 app.get('/api/images', (req, res) => {
-  res.json({ images: uploadedImages });
+  const images = [...uploadedImages]
+
+  res.json({ images });
 });
+
+
 
 
 
@@ -63,6 +86,7 @@ app.get('/api/images', (req, res) => {
 app.get("/", (req, res) => {
   res.send("<h1>Welcome to image analyzer app</h1>");
 });
+
 
 //PORT
 const PORT = process.env.PORT || 8080;

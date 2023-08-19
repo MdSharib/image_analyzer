@@ -89,7 +89,9 @@ const Home = (props) => {
     );
       const imageUrl = res.data.secure_url;
     setImage(res.data.secure_url);
+    // redux store
     dispatch(setImageUrl(res.data.secure_url));
+    // server
     await axios.post('/api/upload', { imageUrl });
 
     setTitle("");
