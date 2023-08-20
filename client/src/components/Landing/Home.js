@@ -19,7 +19,6 @@ const Home = (props) => {
 
   const [previewUrl, setPreviewUrl] = useState(null);
 
-
   // setting
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
@@ -54,14 +53,13 @@ const Home = (props) => {
     const access = {
       ...details,
       isVerified: false,
-    }
+    };
     sessionStorage.setItem("user", JSON.stringify(access));
     sessionStorage.removeItem("image");
     navigate("/");
   };
 
-
-  // handling images upload 
+  // handling images upload
   const uploadHandler = async (e) => {
     e.preventDefault();
 
@@ -87,12 +85,12 @@ const Home = (props) => {
       "https://api.cloudinary.com/v1_1/dicof9asg/image/upload",
       formData
     );
-      const imageUrl = res.data.secure_url;
+    const imageUrl = res.data.secure_url;
     setImage(res.data.secure_url);
     // redux store
     dispatch(setImageUrl(res.data.secure_url));
     // server
-    await axios.post('/api/upload', { imageUrl });
+    await axios.post("/api/upload", { imageUrl });
 
     setTitle("");
     setDesc("");
@@ -103,56 +101,75 @@ const Home = (props) => {
   return (
     <div className={styles.div}>
       <div className={styles.header}>
-        <div>Image Analyzer</div>
+        <div className={styles.innerHeader}>
+          <div className={styles.headerHeading}>.Viewer</div>
 
-        {image && (
-          <button
-            className={styles.btn}
-            onClick={() => {
-              navigate("/count");
-            }}
-          >
-            Image Count
-          </button>
-        )}
+          <div className={styles.headerBtnDiv}>
+            {image && (
+              <button
+                className={styles.btn}
+                onClick={() => {
+                  navigate("/count");
+                }}
+              >
+                View Images
+              </button>
+            )}
 
-        <button className={styles.btn} onClick={logoutHandler}>
-          Logout
-        </button>
+            <button className={styles.btn} onClick={logoutHandler}>
+              Logout
+            </button>
+          </div>
+        </div>
       </div>
       <div className={styles.result}>
-        <input
-          type="text"
-          value={title}
-          placeholder="Title"
-          onChange={(e) => {
-            setTitle(e.target.value);
-          }}
-        />
-        <input
-          type="text"
-          value={desc}
-          placeholder="Description"
-          onChange={(e) => {
-            setDesc(e.target.value);
-          }}
-        />
+        <div className={styles.innerResult}>
+          <input
+            type="text"
+            value={title}
+            placeholder="Title"
+            className={styles.innerResultInput}
+            onChange={(e) => {
+              setTitle(e.target.value);
+            }}
+          />
+          <input
+            type="text"
+            value={desc}
+            placeholder="Description"
+            className={styles.innerResultInput}
+            onChange={(e) => {
+              setDesc(e.target.value);
+            }}
+          />
 
-        <input type="file" onChange={handleFileChange} />
+          <input
+            type="file"
+            onChange={handleFileChange}
+            className={styles.innerResultInput}
+          />
 
-        {previewUrl && (
-          <img src={previewUrl} alt="Preview" className={styles.imgPreview} />
-        )}
+          {previewUrl && (
+            <img src={previewUrl} alt="Preview" className={styles.imgPreview} />
+          )}
 
-        <button type="button" className={styles.btn} onClick={uploadHandler}>
-          {" "}
-          Upload file
-        </button>
-        {error && <div className={styles.error}>{error}</div>}
-        <div>
-          <div>Your Image Preview</div>
-          {image && <Preview />}
+          <button
+            type="button"
+            className={styles.uploadBtn}
+            onClick={uploadHandler}
+          >
+            {" "}
+            Upload file
+          </button>
         </div>
+        {error && <div className={styles.error}>{error}</div>}
+
+        {image && (
+          <div className={styles.previewDiv}>
+            <div className={styles.previewHeading}>Image Preview</div>
+            <Preview />
+          </div>
+        )}
       </div>
     </div>
   );
