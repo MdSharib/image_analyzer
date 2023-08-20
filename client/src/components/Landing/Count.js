@@ -9,6 +9,7 @@ const Count = () => {
   const [viewCount, setViewCount] = useState(0);
 
 
+
   const logoutHandler = () => {
     console.log("logout btn clicked");
     const details = JSON.parse(sessionStorage.getItem("user"));
@@ -28,7 +29,6 @@ const Count = () => {
       try {
         const response = await axios.get('/api/images');
         setImages(response.data.images);
-        // console.log("images response -> ", response.data.images)
       } catch (error) {
         console.error('Error fetching images:', error);
       }
@@ -37,23 +37,26 @@ const Count = () => {
     fetchImages();
   }, []);
 
-  // reload
-  const handleReloadClick = () => {
+
+  // handling per image click
+  const imageClickHandler = (url) => {
+
     const handleImageLoad = async () => {
       try {
-        const urlArray = [
-          ...images
-        ];
-        
-        const publicIdsArray = urlArray.map(item => item.url).join(',');
-        await axios.post(`/api/images/views`, { publicIds: publicIdsArray });
+        const res = await axios.post(`/api/images/views`, { url: url });
+        if (res && res.data.success) {
+          setImages(res.data.uploadedImages)
+        } else {
+          console.log(res.data.message);
+        }
+
       } catch (error) {
         console.error("Error updating view count:", error);
       }
     };
     handleImageLoad();
-    window.location.reload();
-  };
+  
+  }
 
   return (
     <div className={styles.div}>
@@ -75,15 +78,12 @@ const Count = () => {
       </div>
       <div className={styles.result}>
         <div>
-          <div>Your Image Preview</div>
-          <button className={styles.btn} onClick={handleReloadClick}>
-            Reload
-          </button>
+          <div>Your Images Preview</div>
           <ul>
         {images && images.map((imageUrl, index) => (
           <li key={index+543}>
           <div key={index+2342}>Views : {imageUrl.views}</div>
-            <img src={imageUrl.url} alt={`Image ${index}`} />
+            <img src={imageUrl.url} alt={`Image ${index}`} onClick={() => imageClickHandler(imageUrl.url)}/>
           </li>
           
         ))}

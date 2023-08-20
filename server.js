@@ -9,6 +9,7 @@ dotenv.config();
 
 
 
+
 //rest object
 const app = express();
 
@@ -27,20 +28,22 @@ let uploadedImages = [];
 //routes
 // increment view count
 app.post('/api/images/views', (req, res) => {
-  const { publicIds } = req.body; 
-  const recievedUrl = publicIds.split(",");
-    recievedUrl.forEach(publicId => {
-    const updatedImages = uploadedImages.map(val => {
-      if (publicId === val.url) {
-        val.views = val.views + 1;
-      }
-      return val;
-    });
-
-    uploadedImages = [...updatedImages];
+  const { url } = req.body; 
+  
+  const updatedImages = uploadedImages.map(val => {
+    if (url === val.url) {
+      val.views = val.views + 1;
+    }
+    return val;
   });
 
-  res.json({ message: 'View counts incremented.' });
+  uploadedImages = [...updatedImages];
+
+  res.status(200).send({
+    success: true,
+    message: "login successfully",
+    uploadedImages 
+  });
 
 });
 
