@@ -3,15 +3,21 @@
 
 .div{
     width: 100%;
-    height: 100vh;
+    height: 100%;
     display: flex;
     align-items: center;
     flex-direction: column;
+    /* padding: 30px 0px;
     /* padding: 30px 0px; */
 }
 
 .header{
     width: 100%;
+    position: fixed;
+    display: flex;
+    height: 80px;
+    align-items: center;
+    justify-content: space-between;
     color: white;
     background-color: black;
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
@@ -25,6 +31,16 @@
     width: 100%;
 }
 
+.headerHeading{
+    font-size: 40px;
+    font-weight: 600;
+}
+.headerBtnDiv{
+    width: 28%;
+    display: flex;
+    justify-content: space-evenly;
+}
+
 .input{
     background-color: #564ff2;
     border: none;
@@ -34,7 +50,7 @@
     font-size: 17px;
     padding: 11px;
     margin: 10px 0px;
-    font-size: 22px;
+    font-size: 20px;
 }
 
 .btn{
@@ -44,15 +60,33 @@
     cursor: pointer;
     color: white;
     font-size: 17px;
-    padding: 11px;
+    padding: 8px;
     margin: 10px 0px;
-    font-size: 22px;
+    font-size: 20px;
+
 }
 
 .result{
     width: 85%;
-    margin: 45px 0px;
+    margin: 98px 0px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    padding: 25px;
 
+}
+
+.innerResult{
+    display: flex;
+    flex-direction: column;
+}
+
+
+.innerResultInput{
+    width: 50%;
+    border-radius: 6px;
+    border: 0.1px solid black;
+    height: 30px;
+    padding: 6px;
+    margin: 10px 0px;
 }
 .summaryHeading{
     font-size: 40px;
@@ -62,9 +96,127 @@
 
 .imgPreview{
     width: 12%;
-    height: 125px;
+    height: 140px;
+}
+
+.uploadBtn{
+    background-color: #564ff2;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    color: white;
+    font-size: 17px;
+    padding: 11px;
+    margin: 10px 0px;
+    font-size: 22px;
+    width: 12%;
+}
+
+.previewDiv{
+    margin: 15px 0px;
+}
+
+
+.previewHeading{
+    font-size: 35px;
+    font-weight: 500;
+    text-decoration: underline;
+    text-align: center;
+    margin: 40px 0px;
 }
 
 .error{
     color: red;
 }
+
+
+/* preview */
+
+
+.outerImgDiv{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+}
+
+.innerImgDiv{
+    width: 30%;
+    background: #0F0F0F;
+    color: white;
+}
+
+.imgDiv{
+    width: 100%;
+    height: 80%;
+
+}
+.imgDiv img{
+    width: 100%;
+    height: 100%;
+}
+
+
+.url{
+    width: 100%;
+    height: 20%;
+    word-wrap: break-word;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+.url a{
+    text-decoration: none;
+    color: white;
+    font-weight: 600;
+    font-size: 17px;
+    width: 75%;
+    
+}
+
+/* Style for the modal overlay */
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  /* Style for the modal image */
+  .imageModal {
+    background-color: white;
+    padding: 3px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+    /* max-width: 80%; */
+    /* max-height: 80%; */
+    width: 40%;
+    height: 60%;
+    text-align: center;
+    position: relative;
+  }
+  .imageModal img{
+    width: 100%;
+    height: 100%;
+  }
+  
+  /* Style for the close button */
+  .closeButton {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    color: #fff;
+  }
+  
+  .closeButton:hover {
+    color: #000;
+  }
