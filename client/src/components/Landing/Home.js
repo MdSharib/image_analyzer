@@ -44,6 +44,10 @@ const Home = (props) => {
       navigate("/unauthorized");
       return;
     }
+    if(imageUrl.length > 0){
+      setImage(imageUrl);
+    }
+
   }, []);
 
   // handling logout
@@ -105,7 +109,14 @@ const Home = (props) => {
           <div className={styles.headerHeading}>.Viewer</div>
 
           <div className={styles.headerBtnDiv}>
-            {image && (
+          <button
+              className={styles.btn}
+              onClick={() => {
+                navigate("/home");
+              }}
+            >
+              Home
+            </button>
               <button
                 className={styles.btn}
                 onClick={() => {
@@ -114,7 +125,7 @@ const Home = (props) => {
               >
                 View Images
               </button>
-            )}
+            
 
             <button className={styles.btn} onClick={logoutHandler}>
               Logout

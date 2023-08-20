@@ -105,6 +105,7 @@ const Count = () => {
                   <div key={index + 2342} className={styles.url}>Views : {imageUrl.views}</div>
                 </div>
               ))}
+              {(!images || images.length <= 0) && <div>No Images found!</div>}
           </div>
 
           {selectedImageUrl && (

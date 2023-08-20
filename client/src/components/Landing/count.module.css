@@ -174,7 +174,7 @@
     
 }
 
-/* Style for the modal overlay */
+/* modal overlay */
 .modalOverlay {
     position: fixed;
     top: 0;
@@ -188,7 +188,7 @@
     z-index: 1000;
   }
   
-  /* Style for the modal image */
+
   .imageModal {
     background-color: white;
     padding: 3px;
@@ -206,7 +206,7 @@
     height: 100%;
   }
   
-  /* Style for the close button */
+
   .closeButton {
     position: absolute;
     top: 10px;
