@@ -94,7 +94,7 @@ const Home = (props) => {
 
     setTitle("");
     setDesc("");
-
+    setPreviewUrl(null);
     setError(false);
   };
 
@@ -146,6 +146,7 @@ const Home = (props) => {
           <input
             type="file"
             onChange={handleFileChange}
+            
             className={styles.innerResultInput}
           />
 
