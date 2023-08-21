@@ -14,6 +14,7 @@ const Preview = () => {
           <div className={styles.imgDiv}><img src={url} alt={`Image ${index}`} /></div>
             
           <div key={index+2434} className={styles.url}>
+           
             <a href={url} target="_blank" >Click here for Cloudinary Image URL</a>
             </div>  
           
@@ -23,5 +24,6 @@ const Preview = () => {
     </div>
   );
 }
+
 
 export default Preview;
