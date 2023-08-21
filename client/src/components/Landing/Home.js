@@ -82,11 +82,11 @@ const Home = (props) => {
 
     const formData = new FormData();
     formData.append("file", file);
-    formData.append("upload_preset", "haty0ghh");
-    formData.append("cloud_name", "dicof9asg");
+    formData.append("upload_preset", process.env.PRESET);
+    formData.append("cloud_name", process.env.CLOUDNAME);
 
     const res = await axios.post(
-      "https://api.cloudinary.com/v1_1/dicof9asg/image/upload",
+      `https://api.cloudinary.com/v1_1/${process.env.CLOUDNAME}/image/upload`,
       formData
     );
     const imageUrl = res.data.secure_url;
