@@ -19,7 +19,7 @@ const Home = (props) => {
 
   const [previewUrl, setPreviewUrl] = useState(null);
 
-  // setting
+  // setting uploadded file and preview
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
 

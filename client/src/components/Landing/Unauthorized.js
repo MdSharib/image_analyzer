@@ -1,6 +1,6 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
-
+import styles from "./unauthorized.module.css"
 
 
 
@@ -11,9 +11,9 @@ const navigate = useNavigate();
     }
 
   return (
-    <div>
+    <div className={styles.div}>
     <div>Unauthorized Acces! Please register and login first.</div>
-    <button onClick={btnHandler}>Go back to Login page</button>
+    <button onClick={btnHandler} className={styles.btn}>Go back to Login page</button>
     </div>
   )
 }
